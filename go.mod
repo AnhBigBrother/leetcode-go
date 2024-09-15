@@ -1,3 +1,3 @@
-module go_leetcode
+module github.com/AnhBigBrother/go-leetcode
 
 go 1.23.0
