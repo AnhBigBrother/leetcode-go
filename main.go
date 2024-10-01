@@ -1,9 +1,7 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	fmt.Println(findKthNumber(804289384, 42641503))
+	fmt.Println()
 }
