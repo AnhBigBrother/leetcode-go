@@ -50,7 +50,7 @@ func smallestChair(times [][]int, targetFriend int) int {
 		return -1
 	})
 	q := ChairHeap{}
-	un_occupied := IntHeap{}
+	un_occupied := MinHeap{}
 	l := 0
 	heap.Init(&q)
 	heap.Init(&un_occupied)
