@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	fmt.Println(maxKelements([]int{1, 10, 3, 3, 3}, 3))
+	fmt.Println(maxUniqueSplit("ababccc"))
 }
