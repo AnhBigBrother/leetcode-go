@@ -7,6 +7,11 @@ func FindGCD(a, b int) int {
 	return FindGCD(b, a%b)
 }
 
+func FindLCM(a, b int) int {
+	gcd := FindGCD(a, b)
+	return (a / gcd) * b
+}
+
 func findPrimeNums(n int) []int {
 	ans := []int{}
 	not_primes := map[int]bool{}

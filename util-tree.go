@@ -21,12 +21,12 @@ func MakeTree(arr [](int)) *TreeNode {
 				continue
 			}
 			idx++
-			if idx < len(arr) && arr[idx] != 0 {
+			if idx < len(arr) && arr[idx] != -1 {
 				node.Left = &TreeNode{Val: arr[idx]}
 				new_node_arr = append(new_node_arr, node.Left)
 			}
 			idx++
-			if idx < len(arr) && arr[idx] != 0 {
+			if idx < len(arr) && arr[idx] != -1 {
 				node.Right = &TreeNode{Val: arr[idx]}
 				new_node_arr = append(new_node_arr, node.Right)
 			}
@@ -48,7 +48,7 @@ func SpreadTree(root *TreeNode) [][]int {
 			ans = append(ans, []int{})
 		}
 		if root == nil {
-			ans[level] = append(ans[level], 0)
+			ans[level] = append(ans[level], -1)
 			return
 		}
 		ans[level] = append(ans[level], root.Val)
