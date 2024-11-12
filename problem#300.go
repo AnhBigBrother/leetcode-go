@@ -1,23 +1,22 @@
 package main
 
 func lengthOfLIS(nums []int) int {
-	binary_dummy := func(arr []int, val, l, r int) {
-		for l < r {
-			m := (l + r) / 2
-			if arr[m] >= val {
-				r = m
-			} else {
-				l = m + 1
+	n := len(nums)
+	subSequence := []int{nums[0]}
+	for i := 1; i < n; i++ {
+		if subSequence[len(subSequence)-1] < nums[i] {
+			subSequence = append(subSequence, nums[i])
+		} else {
+			l, r := 0, len(subSequence)-1
+			for l < r {
+				m := (l + r) / 2
+				if subSequence[m] < nums[i] {
+					l = m + 1
+				} else {
+					r = m
+				}
 			}
-		}
-		arr[l] = val
-	}
-	subSequence := []int{}
-	for _, x := range nums {
-		if len(subSequence) == 0 || subSequence[len(subSequence)-1] < x {
-			subSequence = append(subSequence, x)
-		} else if subSequence[len(subSequence)-1] > x {
-			binary_dummy(subSequence, x, 0, len(subSequence)-1)
+			subSequence[l] = nums[i]
 		}
 	}
 	return len(subSequence)

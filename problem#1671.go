@@ -5,23 +5,44 @@ func minimumMountainRemovals(nums []int) int {
 	ans := n
 	left := map[int]int{}
 	right := map[int]int{}
-	for i := 0; i < n; i++ {
-		left[i] = n
-		for j := i - 1; j >= 0; j-- {
-			if nums[j] < nums[i] {
-				left[i] = min(left[i], left[j]+i-j-1)
+
+	stack := []int{0}
+	for i := 1; i < n; i++ {
+		if nums[stack[len(stack)-1]] < nums[i] {
+			left[i] = left[stack[len(stack)-1]] + i - stack[len(stack)-1] - 1
+			stack = append(stack, i)
+		} else {
+			l, r := 0, len(stack)-1
+			for l < r {
+				m := (l + r) / 2
+				if nums[stack[m]] >= nums[i] {
+					r = m
+				} else {
+					l = m + 1
+				}
 			}
+			left[i] = left[stack[l]] + i - stack[l]
+			stack[l] = i
 		}
-		left[i] = min(left[i], i)
 	}
-	for i := n - 1; i >= 0; i-- {
-		right[i] = n
-		for j := i + 1; j < n; j++ {
-			if nums[j] < nums[i] {
-				right[i] = min(right[i], right[j]+j-i-1)
+	stack = []int{n - 1}
+	for i := n - 2; i >= 0; i-- {
+		if nums[stack[len(stack)-1]] < nums[i] {
+			right[i] = right[stack[len(stack)-1]] + stack[len(stack)-1] - i - 1
+			stack = append(stack, i)
+		} else {
+			l, r := 0, len(stack)-1
+			for l < r {
+				m := (l + r) / 2
+				if nums[stack[m]] >= nums[i] {
+					r = m
+				} else {
+					l = m + 1
+				}
 			}
+			right[i] = right[stack[l]] + stack[l] - i
+			stack[l] = i
 		}
-		right[i] = min(right[i], n-1-i)
 	}
 	for i := 0; i < n; i++ {
 		if left[i] < i && right[i] < n-1-i {
