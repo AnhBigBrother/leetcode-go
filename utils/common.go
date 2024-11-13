@@ -1,4 +1,4 @@
-package main
+package utils
 
 func FindGCD(a, b int) int {
 	if b == 0 {
@@ -12,7 +12,7 @@ func FindLCM(a, b int) int {
 	return (a / gcd) * b
 }
 
-func findPrimeNums(n int) []int {
+func FindPrimeNums(n int) []int {
 	ans := []int{}
 	not_primes := map[int]bool{}
 	for k := 2; k*k <= n; k++ {

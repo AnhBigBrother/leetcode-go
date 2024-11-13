@@ -1,1 +1,1 @@
-some leetcode solutions in Go
+Leetcode solutions in Go
