@@ -1,13 +1,13 @@
 package main
 
-type Node struct {
+type Node729 struct {
 	start int
 	end   int
-	left  *Node
-	right *Node
+	left  *Node729
+	right *Node729
 }
 
-func (cur *Node) insert(start, end int) bool {
+func (cur *Node729) insert(start, end int) bool {
 	if cur.start == 0 && cur.end == 0 {
 		cur.start = start
 		cur.end = end
@@ -18,14 +18,14 @@ func (cur *Node) insert(start, end int) bool {
 			return false
 		} else {
 			if cur.right == nil {
-				cur.right = &Node{start: start, end: end}
+				cur.right = &Node729{start: start, end: end}
 			} else {
 				return cur.right.insert(start, end)
 			}
 		}
 	} else {
 		if cur.left == nil {
-			cur.left = &Node{start: start, end: end}
+			cur.left = &Node729{start: start, end: end}
 		} else {
 			return cur.left.insert(start, end)
 		}
@@ -34,7 +34,7 @@ func (cur *Node) insert(start, end int) bool {
 }
 
 type MyCalendar struct {
-	root *Node
+	root *Node729
 }
 
 func MyCalendarConstructor() MyCalendar {
@@ -42,7 +42,7 @@ func MyCalendarConstructor() MyCalendar {
 }
 func (cal *MyCalendar) Book(start int, end int) bool {
 	if cal.root == nil {
-		cal.root = &Node{start: start, end: end}
+		cal.root = &Node729{start: start, end: end}
 		return true
 	}
 	return cal.root.insert(start, end)

@@ -10,6 +10,7 @@ import (
 
 type MinHeap = utils.MinHeap
 type MaxHeap = utils.MaxHeap
+type PQItem = utils.PQItem
 type PriorityQueue = utils.PriorityQueue
 type ListNode = utils.ListNode
 type TreeNode = utils.TreeNode

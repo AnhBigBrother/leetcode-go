@@ -41,18 +41,18 @@ func (h *MaxHeap) Pop() any {
 }
 
 /* <------------------------------------------------> */
-type Item struct {
-	value    int
-	priority int
+type PQItem struct {
+	Value    int
+	Priority int
 	index    int
 }
 
-type PriorityQueue []*Item
+type PriorityQueue []*PQItem
 
 func (pq PriorityQueue) Len() int { return len(pq) }
 
 func (pq PriorityQueue) Less(i, j int) bool {
-	return pq[i].priority > pq[j].priority
+	return pq[i].Priority < pq[j].Priority
 }
 
 func (pq PriorityQueue) Swap(i, j int) {
@@ -63,7 +63,7 @@ func (pq PriorityQueue) Swap(i, j int) {
 
 func (pq *PriorityQueue) Push(x any) {
 	n := len(*pq)
-	item := x.(*Item)
+	item := x.(*PQItem)
 	item.index = n
 	*pq = append(*pq, item)
 }
@@ -78,8 +78,8 @@ func (pq *PriorityQueue) Pop() any {
 	return item
 }
 
-func (pq *PriorityQueue) update(item *Item, value int, priority int) {
-	item.value = value
-	item.priority = priority
+func (pq *PriorityQueue) update(item *PQItem, value int, priority int) {
+	item.Value = value
+	item.Priority = priority
 	heap.Fix(pq, item.index)
 }

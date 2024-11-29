@@ -29,3 +29,11 @@ func FindPrimeNums(n int) []int {
 	}
 	return ans
 }
+
+func MakeArr[T any](leng int, val T) []T {
+	arr := []T{}
+	for i := 0; i < leng; i++ {
+		arr = append(arr, val)
+	}
+	return arr
+}
