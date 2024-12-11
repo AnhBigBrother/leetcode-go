@@ -5,7 +5,7 @@ import (
 	"slices"
 )
 
-func maximumBeauty(items [][]int, queries []int) []int {
+func maximumBeauty2070(items [][]int, queries []int) []int {
 	beauty := map[int]int{}
 	price := []int{}
 	for _, x := range items {
