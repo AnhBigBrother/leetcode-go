@@ -105,12 +105,12 @@ func (this *LRUCache) Put(key int, value int) {
 			this.length++
 		} else {
 			if this.max_length == 1 {
-				delete(this.cache, this.tail.key)
+				this.cache[this.tail.key] = nil
 				this.head = node
 				this.tail = node
 				return
 			}
-			delete(this.cache, this.head.key)
+			this.cache[this.head.key] = nil
 			this.head = this.head.back
 			this.head.front = nil
 			this.tail.back = node

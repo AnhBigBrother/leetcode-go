@@ -1,93 +1,101 @@
 package main
 
-type LFUCache struct {
-	freq    map[int]int
-	bucket  map[int]map[int]int
-	max_len int
+import "container/heap"
+
+type LFUItem struct {
+	Key  int
+	Val  int
+	Freq int
+	Last int
+	Idx  int
 }
 
-func Constructor(capacity int) LFUCache {
-	return LFUCache{
-		freq:    make(map[int]int),
-		bucket:  make(map[int]map[int]int),
-		max_len: capacity,
+type LFUQueue []*LFUItem
+
+func (pq LFUQueue) Len() int { return len(pq) }
+
+func (pq LFUQueue) Less(i, j int) bool {
+	if pq[i].Freq == pq[j].Freq {
+		return pq[i].Last < pq[j].Last
 	}
+	return pq[i].Freq < pq[j].Freq
+}
+
+func (pq LFUQueue) Swap(i, j int) {
+	pq[i], pq[j] = pq[j], pq[i]
+	pq[i].Idx = i
+	pq[j].Idx = j
+}
+
+func (pq *LFUQueue) Push(x any) {
+	n := len(*pq)
+	item := x.(*LFUItem)
+	item.Idx = n
+	*pq = append(*pq, item)
+}
+
+func (pq *LFUQueue) Pop() any {
+	old := *pq
+	n := len(old)
+	item := old[n-1]
+	old[n-1] = nil
+	item.Idx = -1
+	*pq = old[0 : n-1]
+	return item
+}
+
+type LFUCache struct {
+	Cache LFUQueue
+	LMap  map[int]*LFUItem
+	Cap   int
+	Last  int
+}
+
+func LFUConstructor(capacity int) LFUCache {
+	x := LFUCache{
+		Cache: LFUQueue{},
+		LMap:  map[int]*LFUItem{},
+		Cap:   capacity,
+		Last:  0,
+	}
+	heap.Init(&(x.Cache))
+	return x
 }
 
 func (this *LFUCache) Get(key int) int {
-	if this.freq[key] == 0 {
+	x := this.LMap[key]
+	if x == nil {
 		return -1
 	}
-	f := this.freq[key]
-	res := this.bucket[f][key]
-	delete(this.bucket[f], key)
-	if len(this.bucket[f]) == 0 {
-		delete(this.bucket, f)
-	}
-	this.freq[key] = f + 1
-	if this.bucket[f+1] == nil {
-		this.bucket[f+1] = make(map[int]int)
-	}
-	this.bucket[f+1][key] = res
-	return res
+	this.Last++
+	x.Last = this.Last
+	x.Freq++
+	heap.Fix(&(this.Cache), x.Idx)
+	return x.Val
 }
 
 func (this *LFUCache) Put(key int, value int) {
-	if len(this.freq) < this.max_len {
-		if this.freq[key] == 0 {
-			this.freq[key] = 1
-			if this.bucket[1] == nil {
-				this.bucket[1] = make(map[int]int)
-			}
-			this.bucket[1][key] = value
-		} else {
-			f := this.freq[key]
-			delete(this.bucket[f], key)
-			if len(this.bucket[f]) == 0 {
-				delete(this.bucket, f)
-			}
-			this.freq[key] = f + 1
-			if this.bucket[f+1] == nil {
-				this.bucket[f+1] = make(map[int]int)
-			}
-			this.bucket[f+1][key] = value
+	if this.LMap[key] == nil {
+		if this.Cache.Len() == this.Cap {
+			x := heap.Pop(&(this.Cache)).(*LFUItem)
+			this.LMap[x.Key] = nil
 		}
+		this.Last++
+		newItem := LFUItem{
+			Key:  key,
+			Val:  value,
+			Freq: 1,
+			Last: this.Last,
+			Idx:  len(this.Cache),
+		}
+		this.LMap[key] = &newItem
+		heap.Push(&(this.Cache), &newItem)
 	} else {
-		if this.freq[key] == 0 {
-			this.freq[key] = 1
-			if this.bucket[1] == nil {
-				min_freq := 50001
-				for k := range this.bucket {
-					min_freq = min(min_freq, k)
-				}
-				for k := range this.bucket[min_freq] {
-					delete(this.bucket[min_freq], k)
-					delete(this.freq, k)
-					break
-				}
-				if len(this.bucket[min_freq]) == 0 {
-					delete(this.bucket, min_freq)
-				}
-				this.bucket[1] = make(map[int]int)
-			} else {
-				for k := range this.bucket[1] {
-					delete(this.bucket[1], k)
-					delete(this.freq, k)
-					break
-				}
-			}
-			this.bucket[1][key] = value
-		} else {
-			f := this.freq[key]
-			delete(this.bucket[f], key)
-			if len(this.bucket[f]) == 0 {
-				delete(this.bucket, f)
-			}
-			this.freq[key] = f + 1
-			if this.bucket[f+1] == nil {
-				this.bucket[f+1] = make(map[int]int)
-			}
-			this.bucket[f+1][key] = value
-		}
+		x := this.LMap[key]
+		x.Freq++
+		this.Last++
+		x.Last = this.Last
+		x.Val = value
+		heap.Fix(&(this.Cache), x.Idx)
 	}
 }
