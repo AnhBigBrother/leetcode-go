@@ -19,6 +19,11 @@ var ListToArr = utils.ListToArr
 var MakeTree = utils.MakeTree
 var SpreadTree = utils.SpreadTree
 
+// disjoint set
+type DisjointSet = utils.DisjointSet
+
+var NewDisjointSet = utils.NewDisjointSet
+
 // string search utils
 var FindLPS = utils.FindLPS
 var KmpSearch = utils.KmpSearch
