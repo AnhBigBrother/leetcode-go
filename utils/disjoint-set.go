@@ -1,12 +1,17 @@
 package utils
 
-type DisjointSet []int
+type DisjointSet map[int]int
+
+func NewDisjointSet() DisjointSet {
+	return DisjointSet{}
+}
 
 func (ds DisjointSet) Find(x int) int {
-	if ds[x] != x {
-		return ds.Find(ds[x])
+	parent, ok := ds[x]
+	if !ok || parent == x {
+		return x
 	}
-	return x
+	return ds.Find(parent)
 }
 
 func (ds DisjointSet) Union(x, y int) {
@@ -21,12 +26,4 @@ func (ds DisjointSet) Union(x, y int) {
 
 func (ds DisjointSet) Check(x, y int) bool {
 	return ds.Find(x) == ds.Find(y)
-}
-
-func NewDisjointSet(n int) DisjointSet {
-	ds := DisjointSet{}
-	for i := 0; i <= n; i++ {
-		ds = append(ds, i)
-	}
-	return ds
 }

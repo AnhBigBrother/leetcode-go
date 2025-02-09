@@ -8,7 +8,7 @@ type TreeNode struct {
 	Right *TreeNode
 }
 
-func MakeTree(arr [](int)) *TreeNode {
+func NewTree(arr [](int)) *TreeNode {
 	if len(arr) == 0 {
 		return nil
 	}

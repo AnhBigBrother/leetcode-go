@@ -5,7 +5,7 @@ type ListNode struct {
 	Next *ListNode
 }
 
-func MakeList(arr []int) *ListNode {
+func NewLinkedList(arr []int) *ListNode {
 	res := &ListNode{}
 	p := res
 	for _, x := range arr {
@@ -15,7 +15,7 @@ func MakeList(arr []int) *ListNode {
 	return res.Next
 }
 
-func ListToArr(head *ListNode) []int {
+func LinkedListToArr(head *ListNode) []int {
 	ans := []int{}
 	for head != nil {
 		ans = append(ans, head.Val)

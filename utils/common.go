@@ -1,5 +1,7 @@
 package utils
 
+import "math"
+
 func FindGCD(a, b int) int {
 	if b == 0 {
 		return a
@@ -36,4 +38,23 @@ func MakeArr[T any](leng int, val T) []T {
 		arr = append(arr, val)
 	}
 	return arr
+}
+
+func FindDivisors(x int) []int {
+	ans := []int{1, x}
+	visited := map[int]bool{}
+	for i := 2; i <= int(math.Sqrt(float64(x))); i++ {
+		if x%i == 0 {
+			a, b := i, x/i
+			if !visited[a] {
+				ans = append(ans, a)
+				visited[a] = true
+			}
+			if !visited[b] {
+				ans = append(ans, b)
+				visited[b] = true
+			}
+		}
+	}
+	return ans
 }

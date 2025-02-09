@@ -56,7 +56,8 @@ type LRUCache struct {
 	max_length int
 }
 
-func LRUCacheConstructor(capacity int) LRUCache {
+// Constructor
+func NewLRUCache(capacity int) LRUCache {
 	return LRUCache{
 		length:     0,
 		max_length: capacity,

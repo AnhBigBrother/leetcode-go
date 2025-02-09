@@ -4,19 +4,19 @@ import "github.com/AnhBigBrother/leetcode-go/utils"
 
 // <----------------utilities---------------->
 
-// heap, priority queue utils
+// heap + priority queue
 type MinHeap = utils.MinHeap
 type MaxHeap = utils.MaxHeap
 type PQItem = utils.PQItem
 type PriorityQueue = utils.PriorityQueue
 
-// linked-list, tree utils
+// linked-list + tree
 type ListNode = utils.ListNode
 type TreeNode = utils.TreeNode
 
-var MakeList = utils.MakeList
-var ListToArr = utils.ListToArr
-var MakeTree = utils.MakeTree
+var NewLinkedList = utils.NewLinkedList
+var LinkedListToArr = utils.LinkedListToArr
+var NewTree = utils.NewTree
 var SpreadTree = utils.SpreadTree
 
 // disjoint set
@@ -24,11 +24,12 @@ type DisjointSet = utils.DisjointSet
 
 var NewDisjointSet = utils.NewDisjointSet
 
-// string search utils
+// string search
 var FindLPS = utils.FindLPS
 var KmpSearch = utils.KmpSearch
 
-// other
+// others
 var FindGCD = utils.FindGCD
 var FindLCM = utils.FindLCM
 var FindPrimeNums = utils.FindPrimeNums
+var FindDivisors = utils.FindDivisors
