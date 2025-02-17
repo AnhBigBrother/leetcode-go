@@ -1,6 +1,6 @@
 package main
 
-func minOperations(boxes string) []int {
+func minOperations1769(boxes string) []int {
 	n := (len(boxes))
 	sum := make([]int, n)
 	sum[0] = 0
