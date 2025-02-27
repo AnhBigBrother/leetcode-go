@@ -33,3 +33,4 @@ var FindGCD = utils.FindGCD
 var FindLCM = utils.FindLCM
 var FindPrimeNums = utils.FindPrimeNums
 var FindDivisors = utils.FindDivisors
+var Abs = utils.Abs

@@ -5,14 +5,14 @@ func letterCombinations(digits string) []string {
 		return []string{}
 	}
 	letter := map[byte][]byte{
-		'2': []byte{'a', 'b', 'c'},
-		'3': []byte{'d', 'e', 'f'},
-		'4': []byte{'g', 'h', 'i'},
-		'5': []byte{'j', 'k', 'l'},
-		'6': []byte{'m', 'n', 'o'},
-		'7': []byte{'p', 'q', 'r', 's'},
-		'8': []byte{'t', 'u', 'v'},
-		'9': []byte{'w', 'x', 'y', 'z'},
+		'2': {'a', 'b', 'c'},
+		'3': {'d', 'e', 'f'},
+		'4': {'g', 'h', 'i'},
+		'5': {'j', 'k', 'l'},
+		'6': {'m', 'n', 'o'},
+		'7': {'p', 'q', 'r', 's'},
+		'8': {'t', 'u', 'v'},
+		'9': {'w', 'x', 'y', 'z'},
 	}
 	ans := []string{}
 	char_arr := []byte{}
