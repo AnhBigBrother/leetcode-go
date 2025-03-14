@@ -16,16 +16,18 @@ func FindLCM(a, b int) int {
 
 func FindPrimeNums(n int) []int {
 	ans := []int{}
-	not_primes := map[int]bool{}
+	sieve := make([]bool, n+1)
 	for k := 2; k*k <= n; k++ {
-		if !not_primes[k] {
-			for i := 2; k*i <= n; i++ {
-				not_primes[k*i] = true
+		if !sieve[k] {
+			// i start from k, no need to start from 2
+			// from 2 to k is calculated when k=2, k=3... k=k-1
+			for i := k; k*i <= n; i++ {
+				sieve[k*i] = true
 			}
 		}
 	}
 	for i := 2; i <= n; i++ {
-		if !not_primes[i] {
+		if !sieve[i] {
 			ans = append(ans, i)
 		}
 	}
@@ -34,7 +36,7 @@ func FindPrimeNums(n int) []int {
 
 func MakeArr[T any](leng int, val T) []T {
 	arr := []T{}
-	for i := 0; i < leng; i++ {
+	for range leng {
 		arr = append(arr, val)
 	}
 	return arr

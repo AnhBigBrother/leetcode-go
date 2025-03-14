@@ -1,6 +1,6 @@
 package main
 
-func numberOfSubstrings(s string, k int) int {
+func numberOfSubstrings3325(s string, k int) int {
 	n := len(s)
 	ans := 0
 	l, r := 0, 0
