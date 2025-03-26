@@ -1,7 +1,8 @@
 package main
 
 func findRedundantConnection(edges [][]int) []int {
-	ds := NewDisjointSet()
+	n := len(edges) + 1
+	ds := NewDisjointSet(n)
 	ans := []int{-1, -1}
 	for _, e := range edges {
 		if ds.Check(e[0], e[1]) {

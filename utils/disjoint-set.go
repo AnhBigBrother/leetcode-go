@@ -1,14 +1,18 @@
 package utils
 
-type DisjointSet map[int]int
+type DisjointSet []int
 
-func NewDisjointSet() DisjointSet {
-	return DisjointSet{}
+func NewDisjointSet(n int) DisjointSet {
+	ds := []int{}
+	for i := range n {
+		ds = append(ds, i)
+	}
+	return ds
 }
 
 func (ds DisjointSet) Find(x int) int {
-	parent, ok := ds[x]
-	if !ok || parent == x {
+	parent := ds[x]
+	if parent == x {
 		return x
 	}
 	return ds.Find(parent)
