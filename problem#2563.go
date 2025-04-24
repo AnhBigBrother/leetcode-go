@@ -1,45 +1,71 @@
 package main
 
 import (
-	"math"
 	"slices"
 )
 
 func countFairPairs(nums []int, lower int, upper int) int64 {
-	n := len(nums)
 	slices.Sort(nums)
-	binSearch := func(i int) int {
-		l, r := i+1, n-1
-		for l < r {
-			m := int(math.Floor(float64(l+r) / 2))
-			if nums[m]+nums[i] >= lower {
-				r = m
-			} else {
-				l = m + 1
-			}
+	var count int64 = 0
+	for i, j := 0, len(nums)-1; i < j; i++ {
+		for i < j && nums[i]+nums[j] > upper {
+			j--
 		}
-		if l > r || nums[i]+nums[l] < lower || nums[i]+nums[l] > upper {
-			return 0
-		}
-		left := l
-		l, r = i+1, n-1
-		for l < r {
-			m := int(math.Ceil(float64(l+r) / 2))
-			if nums[m]+nums[i] <= upper {
-				l = m
-			} else {
-				r = m - 1
-			}
-		}
-		if l > r || nums[i]+nums[r] < lower || nums[i]+nums[r] > upper {
-			return 0
-		}
-		right := r
-		return right - left + 1
+		count += int64(j - i) // Add all pairs with sum <= upper
 	}
-	ans := int64(0)
-	for i := 0; i < n; i++ {
-		ans += int64(binSearch(i))
+	for i, j := 0, len(nums)-1; i < j; i++ {
+		for i < j && nums[i]+nums[j] >= lower {
+			j--
+		}
+		count -= int64(j - i) // Subtract all pairs with sum < lower
 	}
-	return ans
+	return count
 }
+
+// Other solution using binary search:
+/* func countFairPairs(nums []int, lower int, upper int) int64 {
+	slices.Sort(nums)
+	findLow := func(nums []int, idx int) int {
+		l, r := 0, idx-1
+		for l < r {
+			m := (l + r) / 2
+			if nums[m]+nums[idx] < lower {
+				l = m + 1
+			} else {
+				r = m
+			}
+		}
+		if nums[l]+nums[idx] < lower {
+			return -1
+		}
+		return l
+	}
+	findUp := func(nums []int, idx int) int {
+		l, r := 0, idx-1
+		for l < r {
+			m := (l + r + 1) / 2
+			if nums[m]+nums[idx] > upper {
+				r = m - 1
+			} else {
+				l = m
+			}
+		}
+		if nums[r]+nums[idx] > upper {
+			return -1
+		}
+		return r
+	}
+
+	var ans int64 = 0
+
+	for i := 1; i < len(nums); i++ {
+		l := findLow(nums, i)
+		u := findUp(nums, i)
+		if l == -1 || u == -1 {
+			continue
+		}
+		ans += int64(u - l + 1)
+	}
+
+	return ans
+} */
