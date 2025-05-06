@@ -1,4 +1,4 @@
-package utils
+package searching
 
 func FindLPS(s string) []int {
 	n := len(s)
