@@ -9,23 +9,23 @@ type color bool
 const BLACK color = true
 const RED color = false
 
-type node struct {
+type rb_node struct {
 	value  int
 	color  color
-	parent *node
-	left   *node
-	right  *node
+	parent *rb_node
+	left   *rb_node
+	right  *rb_node
 }
 
-func new_node(val int, col color) *node {
-	return &node{
+func new_rb_node(val int, col color) *rb_node {
+	return &rb_node{
 		value: val,
 		color: col,
 	}
 }
 
 type RedBlackTree struct {
-	root *node
+	root *rb_node
 	size int
 }
 
@@ -73,10 +73,10 @@ func (tree *RedBlackTree) Maximum() int {
 
 // Insert value 'val' to the tree
 func (tree *RedBlackTree) Insert(val int) {
-	z := new_node(val, RED)
+	z := new_rb_node(val, RED)
 
 	x := tree.root
-	var y *node = nil
+	var y *rb_node = nil
 
 	for x != nil {
 		y = x
@@ -110,7 +110,7 @@ func (tree *RedBlackTree) Delete(val int) {
 
 	y := z
 	y_orig_color := y.color
-	var x *node
+	var x *rb_node
 
 	if z.left == nil {
 		// case 1: z.left is nil
@@ -198,31 +198,10 @@ func (tree *RedBlackTree) Size() int {
 
 // Print tree
 func (tree *RedBlackTree) PrintTree() {
-	arr := [][]string{}
-	var dfs func(node *node, level int)
-	dfs = func(node *node, level int) {
-		if node == nil {
-			return
-		}
-		if len(arr) < level+1 {
-			arr = append(arr, []string{})
-		}
-		c := "R"
-		if node.color == BLACK {
-			c = "B"
-		}
-		str := fmt.Sprintf("[%d, %s]", node.value, c)
-		arr[level] = append(arr[level], str)
-		dfs(node.left, level+1)
-		dfs(node.right, level+1)
-	}
-	dfs(tree.root, 0)
-	for _, row := range arr {
-		fmt.Println(row)
-	}
+	tree.print_node(tree.root, "", true)
 }
 
-func (tree *RedBlackTree) left_rotate(x *node) {
+func (tree *RedBlackTree) left_rotate(x *rb_node) {
 	y := x.right
 	if y == nil {
 		return
@@ -247,7 +226,7 @@ func (tree *RedBlackTree) left_rotate(x *node) {
 	x.parent = y
 }
 
-func (tree *RedBlackTree) right_rotate(x *node) {
+func (tree *RedBlackTree) right_rotate(x *rb_node) {
 	y := x.left
 	if y == nil {
 		return
@@ -272,7 +251,7 @@ func (tree *RedBlackTree) right_rotate(x *node) {
 	x.parent = y
 }
 
-func (tree *RedBlackTree) insert_fixup(z *node) {
+func (tree *RedBlackTree) insert_fixup(z *rb_node) {
 
 	for z.parent != nil && z.parent.color == RED {
 
@@ -341,7 +320,7 @@ func (tree *RedBlackTree) insert_fixup(z *node) {
 	tree.root.color = BLACK
 }
 
-func (tree *RedBlackTree) search(val int) *node {
+func (tree *RedBlackTree) search(val int) *rb_node {
 	x := tree.root
 	for x != nil && x.value != val {
 		if val < x.value {
@@ -354,7 +333,7 @@ func (tree *RedBlackTree) search(val int) *node {
 }
 
 // transplant(u, v) connect v to u.parent and free u
-func (tree *RedBlackTree) transplant(u, v *node) {
+func (tree *RedBlackTree) transplant(u, v *rb_node) {
 	if u.parent == nil {
 		tree.root = v
 	} else if u == u.parent.left {
@@ -367,14 +346,14 @@ func (tree *RedBlackTree) transplant(u, v *node) {
 	}
 }
 
-func (tree *RedBlackTree) subtree_minimum(x *node) *node {
+func (tree *RedBlackTree) subtree_minimum(x *rb_node) *rb_node {
 	for x.left != nil {
 		x = x.left
 	}
 	return x
 }
 
-func (tree *RedBlackTree) delete_fixup(x *node) {
+func (tree *RedBlackTree) delete_fixup(x *rb_node) {
 
 	for x != tree.root && x.color == BLACK {
 
@@ -475,4 +454,21 @@ func (tree *RedBlackTree) delete_fixup(x *node) {
 	}
 
 	x.color = BLACK
+}
+
+func (tree *RedBlackTree) print_node(node *rb_node, indent string, isRight bool) {
+	if node == nil {
+		return
+	}
+	tree.print_node(node.right, fmt.Sprintf("%s       ", indent), true)
+	c := "B"
+	if node.color == RED {
+		c = "R"
+	}
+	if isRight {
+		fmt.Printf("%s   ┌── [%d, %s]\n", indent, node.value, c)
+	} else {
+		fmt.Printf("%s   └── [%d, %s]\n", indent, node.value, c)
+	}
+	tree.print_node(node.left, fmt.Sprintf("%s       ", indent), false)
 }

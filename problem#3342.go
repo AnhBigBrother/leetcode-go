@@ -5,7 +5,6 @@ import "container/heap"
 type Item3342 struct {
 	x, y, t  int
 	priority int
-	index    int
 }
 
 type PriorityQueue3342 []*Item3342
@@ -18,14 +17,10 @@ func (pq PriorityQueue3342) Less(i, j int) bool {
 
 func (pq PriorityQueue3342) Swap(i, j int) {
 	pq[i], pq[j] = pq[j], pq[i]
-	pq[i].index = i
-	pq[j].index = j
 }
 
 func (pq *PriorityQueue3342) Push(x any) {
-	n := len(*pq)
 	item3342 := x.(*Item3342)
-	item3342.index = n
 	*pq = append(*pq, item3342)
 }
 
@@ -34,17 +29,16 @@ func (pq *PriorityQueue3342) Pop() any {
 	n := len(old)
 	item3342 := old[n-1]
 	old[n-1] = nil
-	item3342.index = -1
 	*pq = old[0 : n-1]
 	return item3342
 }
 
-func minTimeToReach(moveTime [][]int) int {
+func minTimeToReach3342(moveTime [][]int) int {
 	m, n := len(moveTime), len(moveTime[0])
 	time := [][]int{}
-	for i := 0; i < m; i++ {
+	for range m {
 		t := []int{}
-		for j := 0; j < n; j++ {
+		for range n {
 			t = append(t, 1e10)
 		}
 		time = append(time, t)

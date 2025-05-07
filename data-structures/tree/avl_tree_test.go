@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestRedBlackTree(t *testing.T) {
+func TestAVLTree(t *testing.T) {
 
 	const TREE_SIZE = 1000
 
@@ -20,7 +20,7 @@ func TestRedBlackTree(t *testing.T) {
 	expected = append(expected, test_case...)
 	slices.Sort(expected)
 
-	tree := NewRedBlackTree()
+	tree := NewAVLTree()
 	for _, x := range test_case {
 		tree.Insert(x)
 		if !tree.Check(x) {

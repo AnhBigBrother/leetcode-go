@@ -27,8 +27,10 @@ var NewDisjointSet = set.NewDisjointSet
 // tree
 type BalanceBinaryTree = tree.BalanceBinaryTree
 type RedBlackTree = tree.RedBlackTree
+type AVLTree = tree.AVLTree
 
 var NewRedBlackTree = tree.NewRedBlackTree
+var NewAVLTree = tree.NewAVLTree
 
 /*
  */
