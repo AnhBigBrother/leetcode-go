@@ -68,3 +68,81 @@ func TestAVLTree(t *testing.T) {
 	}
 
 }
+
+func BenchmarkAVLTreeInsert100000(b *testing.B) {
+
+	b.StopTimer()
+
+	const TREE_SIZE = 100000
+
+	test_case := []int{}
+	for range TREE_SIZE {
+		x := rand.Int()
+		test_case = append(test_case, x)
+	}
+
+	tree := NewAVLTree()
+
+	b.StartTimer()
+
+	for _, x := range test_case {
+		tree.Insert(x)
+	}
+
+	b.StopTimer()
+}
+
+func BenchmarkAVLTreeDelete100000(b *testing.B) {
+
+	b.StopTimer()
+
+	const TREE_SIZE = 100000
+
+	test_case := []int{}
+	for range TREE_SIZE {
+		x := rand.Int()
+		test_case = append(test_case, x)
+	}
+
+	tree := NewAVLTree()
+	for _, x := range test_case {
+		tree.Insert(x)
+	}
+
+	b.StartTimer()
+
+	for i := TREE_SIZE - 1; i >= 0; i-- {
+		x := test_case[i]
+		tree.Delete(x)
+	}
+
+	b.StopTimer()
+}
+
+func BenchmarkAVLTreeQuery100000(b *testing.B) {
+
+	b.StopTimer()
+
+	const TREE_SIZE = 100000
+
+	test_case := []int{}
+	for range TREE_SIZE {
+		x := rand.Int()
+		test_case = append(test_case, x)
+	}
+
+	tree := NewAVLTree()
+	for _, x := range test_case {
+		tree.Insert(x)
+
+	}
+
+	b.StartTimer()
+
+	for i := TREE_SIZE - 1; i >= 0; i-- {
+		x := test_case[i]
+		tree.Check(x)
+	}
+
+	b.StopTimer()
+}

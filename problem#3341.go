@@ -33,7 +33,7 @@ func (pq *PriorityQueue3341) Pop() any {
 	return item3341
 }
 
-func minTimeToReach(moveTime [][]int) int {
+func minTimeToReach3341(moveTime [][]int) int {
 	m, n := len(moveTime), len(moveTime[0])
 	time := [][]int{}
 	for range m {

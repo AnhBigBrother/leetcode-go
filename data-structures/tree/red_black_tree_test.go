@@ -68,3 +68,81 @@ func TestRedBlackTree(t *testing.T) {
 	}
 
 }
+
+func BenchmarkRedBlackTreeInsert100000(b *testing.B) {
+
+	b.StopTimer()
+
+	const TREE_SIZE = 100000
+
+	test_case := []int{}
+	for range TREE_SIZE {
+		x := rand.Int()
+		test_case = append(test_case, x)
+	}
+
+	tree := NewRedBlackTree()
+
+	b.StartTimer()
+
+	for _, x := range test_case {
+		tree.Insert(x)
+	}
+
+	b.StopTimer()
+}
+
+func BenchmarkRedBlackTreeDelete100000(b *testing.B) {
+
+	b.StopTimer()
+
+	const TREE_SIZE = 100000
+
+	test_case := []int{}
+	for range TREE_SIZE {
+		x := rand.Int()
+		test_case = append(test_case, x)
+	}
+
+	tree := NewRedBlackTree()
+	for _, x := range test_case {
+		tree.Insert(x)
+	}
+
+	b.StartTimer()
+
+	for i := TREE_SIZE - 1; i >= 0; i-- {
+		x := test_case[i]
+		tree.Delete(x)
+	}
+
+	b.StopTimer()
+}
+
+func BenchmarkRedBlackTreeQuery100000(b *testing.B) {
+
+	b.StopTimer()
+
+	const TREE_SIZE = 100000
+
+	test_case := []int{}
+	for range TREE_SIZE {
+		x := rand.Int()
+		test_case = append(test_case, x)
+	}
+
+	tree := NewRedBlackTree()
+	for _, x := range test_case {
+		tree.Insert(x)
+
+	}
+
+	b.StartTimer()
+
+	for i := TREE_SIZE - 1; i >= 0; i-- {
+		x := test_case[i]
+		tree.Check(x)
+	}
+
+	b.StopTimer()
+}
